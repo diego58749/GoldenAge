@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de trabajos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+</head>
+<!-- AlpineJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.8.1/cdn.min.js" defer></script>
+<header>
+    <div class="flex flex-col items-center justify-center mt-32" x-cloak x-data="appData()" x-init="appInit()">
+        <div class="flex flex-col">
+            <!-- Page Scroll Progress -->
+            <div class="fixed inset-x-0 top-0 z-50 h-0.5 mt-0.5
+            bg-blue-500" :style="`width: ${percent}%`"></div>
+
+            <!-- Navbar -->
+            <nav class="flex justify-around py-4 bg-white/80
+            backdrop-blur-md shadow-md w-full
+            fixed top-0 left-0 right-0 z-10">
+
+                <!-- Logo Container -->
+              <div class="flex items-center justify-center h-20  w-30 object-cover">
+                  <!-- Logo -->
+                  <a class="cursor-pointer">
+                      <h3 class="text-2xl font-medium text-blue-500">
+                          <img class="h-20  w-30 object-cover" src="/imagenes/logoA.png" alt="Store Logo">
+                      </h3>
+                  </a>
+              </div>
+
+                <!-- Links Section -->
+                <div class="items-center hidden space-x-8 lg:flex">
+                  <a href="index.html" class="flex text-gray-600 hover:text-blue-500
+                  cursor-pointer transition-colors duration-300">
+                      Inicio
+                      
+                  </a>
+                    <a href="/MisDocumentos.html" class="flex text-gray-600 hover:text-blue-500
+                    cursor-pointer transition-colors duration-300">
+                        Mis Documentos
+                        
+                    </a>
+
+                    <a href="Beneficios.html" class="flex text-gray-600 hover:text-blue-500
+                    cursor-pointer transition-colors duration-300
+                    text-blue-600">
+                        Beneficios
+                    </a>
+
+                    <a href="https://www.mineduc.cl/talleres-de-programacion-2021/" class="flex text-gray-600 hover:text-blue-500
+                    cursor-pointer transition-colors duration-300">
+                        Talleres
+                    </a>
+                </div>
+
+
+                <!-- Icon Menu Section -->
+                <div class="flex items-center space-x-5">
+                    <!-- Register -->
+                    <div>
+                        <button onclick="openModal()" class=''> 
+                          <a href="InicioDeSesion.html" class="flex text-gray-600 hover:text-blue-500
+                            cursor-pointer transition-colors duration-300">
+
+                                <svg class="fill-current h-5 w-5 mr-2 mt-0.5" xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="InicioDeSesion.ejs" version="1.1" width="24" height="24"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 0L11.34 .03L15.15 3.84L16.5 2.5C19.75 4.07 22.09 7.24 22.45 11H23.95C23.44 4.84 18.29 0 12 0M12 4C10.07 4 8.5 5.57 8.5 7.5C8.5 9.43 10.07 11 12 11C13.93 11 15.5 9.43 15.5 7.5C15.5 5.57 13.93 4 12 4M12 6C12.83 6 13.5 6.67 13.5 7.5C13.5 8.33 12.83 9 12 9C11.17 9 10.5 8.33 10.5 7.5C10.5 6.67 11.17 6 12 6M.05 13C.56 19.16 5.71 24 12 24L12.66 23.97L8.85 20.16L7.5 21.5C4.25 19.94 1.91 16.76 1.55 13H.05M12 13C8.13 13 5 14.57 5 16.5V18H19V16.5C19 14.57 15.87 13 12 13M12 15C14.11 15 15.61 15.53 16.39 16H7.61C8.39 15.53 9.89 15 12 15Z" />
+                                </svg>
+
+                                Ingresar
+                            </a></button>
+                    </div>
+                  </div>
+
+            </nav>
+            <!-- component -->
+            <style>
+                .animated {
+                    -webkit-animation-duration: 1s;
+                    animation-duration: 1s;
+                    -webkit-animation-fill-mode: both;
+                    animation-fill-mode: both;
+                }
+
+                .animated.faster {
+                    -webkit-animation-duration: 500ms;
+                    animation-duration: 500ms;
+                }
+
+                .fadeIn {
+                    -webkit-animation-name: fadeIn;
+                    animation-name: fadeIn;
+                }
+
+                .fadeOut {
+                    -webkit-animation-name: fadeOut;
+                    animation-name: fadeOut;
+                }
+
+                @keyframes fadeIn {
+                    from {
+                        opacity: 0;
+                    }
+
+                    to {
+                        opacity: 1;
+                    }
+                }
+
+                @keyframes fadeOut {
+                    from {
+                        opacity: 1;
+                    }
+
+                    to {
+                        opacity: 0;
+                    }
+                }
+            </style>
+</header>
+
+<body class="bg-white">
+
+    <div id="default-carousel" class="relative w-full" data-carousel="slide">
+        <!-- Carousel wrapper -->
+        <div class="relative overflow-hidden rounded-lg md:h-96">
+            <!-- Item 1 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="https://www.santiagocultura.cl/wp-content/uploads/2019/06/carrusel-cultura-940x380.png"
+                    class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>
+            <!-- Item 2 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="https://th.bing.com/th/id/OIP.aO7d07INBctFNN1QYiaIIgHaCU?pid=ImgDet&rs=1"
+                    class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>
+            <!-- Item 3 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="https://beneficios.ptealto.cl/img/portada.png"
+                    class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>
+            <!-- Item 4 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="/imagenes/portada2.jpg"
+                    class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>
+            <!-- Item 5 -->
+        </div>
+
+        <!-- Slider indicators -->
+        <div class="absolute z-30 flex space-x-3 -translate-x-1/2 bottom-5 left-1/2">
+            <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1"
+                data-carousel-slide-to="0"></button>
+            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 2"
+                data-carousel-slide-to="1"></button>
+            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3"
+                data-carousel-slide-to="2"></button>
+            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 4"
+                data-carousel-slide-to="3"></button>
+            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 5"
+                data-carousel-slide-to="4"></button>
+        </div>
+        <!-- Slider controls -->
+        <button type="button"
+            class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+            data-carousel-prev>
+            <span
+                class="inline-flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                <svg aria-hidden="true" class="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800" fill="none"
+                    stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                <span class="sr-only">Previous</span>
+            </span>
+        </button>
+        <button type="button"
+            class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+            data-carousel-next>
+            <span
+                class="inline-flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                <svg aria-hidden="true" class="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800" fill="none"
+                    stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+                <span class="sr-only">Next</span>
+            </span>
+        </button>
+    </div>
+
+    <div class="grid grid-cols-3 gap-3 pt-6">
+        <center>
+            <div class=""><a href="https://consulta.bonoinvierno.cl/Invierno2023-Consulta/consultaBeneficio"
+                    class="group relative inline-block overflow-hidden rounded border border-gray-100 bg-gray-200  px-12 py-3 text-sm font-medium text-slate-800 hover:text-violet-600 focus:outline-none focus:ring active:bg-indigo-600 active:text-white">
+                    <span
+                        class="ease absolute left-0 top-0 h-0 w-0 border-t-2 border-violet-600 transition-all duration-200 group-hover:w-full"></span>
+                    <span
+                        class="ease absolute right-0 top-0 h-0 w-0 border-r-2 border-violet-600 transition-all duration-200 group-hover:h-full"></span>
+                    <span
+                        class="ease absolute bottom-0 right-0 h-0 w-0 border-b-2 border-violet-600 transition-all duration-200 group-hover:w-full"></span>
+                    <span
+                        class="ease absolute bottom-0 left-0 h-0 w-0 border-l-2 border-violet-600 transition-all duration-200 group-hover:h-full"></span>
+                        Bono Invierno 2023
+                </a>
+                <div class="max-w-md py-4 px-8 bg-white shadow-lg rounded-lg my-20">
+                    <div class="flex justify-center md:justify-center -mt-16">
+                        <img class="w-20 h-20 object-cover rounded-full border-2 border-indigo-500"
+                            src="https://s3.amazonaws.com/gobcl-prod/filer_public_thumbnails/public_files/Campa%C3%B1as/Corona-Virus/Reportes/bono-invierno-pago-monto.jpeg__1440x2000_q70_subsampling-2.jpg">
+                    </div>
+                    <div style="text-align: justify;">
+                        <h2 class="text-gray-800 text-3xl font-semibold " indent-8""></h2>
+                        <p class="mt-2 text-gray-600">El valor del Bono Invierno 2023 corresponde a $74.767, monto que fue transferido a todas las personas de 65 años de edad o más que cuenten con los requisitos.</p>
+                    </div>
+                    <div class="flex justify-end mt-4">
+                        <a href="#" class="text-xl font-medium text-indigo-500"></a>
+                    </div>
+                </div>
+            </div>
+        </center>
+
+        <center>
+            <div class=""><a href="https://www.google.com/"
+                    class="group relative inline-block overflow-hidden rounded border border-gray-100 bg-gray-200  px-12 py-3 text-sm font-medium text-slate-800 hover:text-violet-600 focus:outline-none focus:ring active:bg-indigo-600 active:text-white">
+                    <span
+                        class="ease absolute left-0 top-0 h-0 w-0 border-t-2 border-violet-600 transition-all duration-200 group-hover:w-full"></span>
+                    <span
+                        class="ease absolute right-0 top-0 h-0 w-0 border-r-2 border-violet-600 transition-all duration-200 group-hover:h-full"></span>
+                    <span
+                        class="ease absolute bottom-0 right-0 h-0 w-0 border-b-2 border-violet-600 transition-all duration-200 group-hover:w-full"></span>
+                    <span
+                        class="ease absolute bottom-0 left-0 h-0 w-0 border-l-2 border-violet-600 transition-all duration-200 group-hover:h-full"></span>
+                        Rebaja en tarifa de transporte público
+                </a>
+                <div class="max-w-md py-4 px-8 bg-white shadow-lg rounded-lg my-20">
+                    <div class="flex justify-center md:justify-center -mt-16">
+                        <img class="w-20 h-20 object-cover rounded-full border-2 border-indigo-500"
+                            src="data:image/jpeg;base64,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">
+                    </div>
+                    <div style="text-align: justify;">
+                        <h2 class="text-gray-800 text-3xl font-semibold"></h2>
+                        <p class="mt-2 text-gray-600">Disminución de 50% de tarifa normal para el 100% de los 
+                            adultos mayores de 65 años o más, en todos los servicios de transporte público mayor.
+                            Durante el mes de enero se informará un calendario de implementación a nivel nacional.</p>
+                    </div>
+                    <div class="flex justify-end mt-4">
+                        <a href="#" class="text-xl font-medium text-indigo-500"></a>
+                    </div>
+                </div>
+            </div>
+        </center>
+        <center>
+            <div class=""><a href="https://www.google.com/"
+                    class="group relative inline-block overflow-hidden rounded border border-gray-100 bg-gray-200  px-12 py-3 text-sm font-medium text-slate-800 hover:text-violet-600 focus:outline-none focus:ring active:bg-indigo-600 active:text-white">
+                    <span
+                        class="ease absolute left-0 top-0 h-0 w-0 border-t-2 border-violet-600 transition-all duration-200 group-hover:w-full"></span>
+                    <span
+                        class="ease absolute right-0 top-0 h-0 w-0 border-r-2 border-violet-600 transition-all duration-200 group-hover:h-full"></span>
+                    <span
+                        class="ease absolute bottom-0 right-0 h-0 w-0 border-b-2 border-violet-600 transition-all duration-200 group-hover:w-full"></span>
+                    <span
+                        class="ease absolute bottom-0 left-0 h-0 w-0 border-l-2 border-violet-600 transition-all duration-200 group-hover:h-full"></span>
+                        Remedios más baratos
+                </a>
+                <div class="max-w-md py-4 px-8 bg-white shadow-lg rounded-lg my-20">
+                    <div class="flex justify-center md:justify-center -mt-16">
+                        <img class="w-20 h-20 object-cover rounded-full border-2 border-indigo-500"
+                            src="https://www.laboratoriochile.cl/wp-content/uploads/2020/02/m-bioequivalente550x349.jpg">
+                    </div>
+                    <div style="text-align: justify;">
+                        <h2 class="text-gray-800 text-3xl font-semibold"></h2>
+                        <p class="mt-2 text-gray-600"> A través de la Política Nacional de Medicamentos desde el 6 de abril, las familias podrán ahorrar 
+                            hasta un 80% en medicamentos gracias a un convenio con Cenabast que partirá reduciendo los precios en farmacias de barrio.</p>
+                    </div>
+                    <div class="flex justify-end mt-4">
+                        <a href="#" class="text-xl font-medium text-indigo-500"></a>
+                    </div>
+                </div>
+            </div>
+        </center>
+        <center>
+            <!-- component -->
+
+
+
+
+    </div>
+    </div>
+    </center>
+<!-- component -->
+<div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
+    <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
+      <thead class="bg-gray-50">
+        <tr>
+          <th scope="col" class="px-6 py-4 font-medium text-gray-900">Beneficio</th>
+          <th scope="col" class="px-6 py-4 font-medium text-gray-900">Estado</th>
+          <th scope="col" class="px-6 py-4 font-medium text-gray-900">Descripcion</th>
+          <th scope="col" class="px-6 py-4 font-medium text-gray-900">Requisitos</th>
+          <th scope="col" class="px-6 py-4 font-medium text-gray-900"></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100 border-t border-gray-100">
+        <tr class="hover:bg-gray-50">
+          <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
+            <div class="relative h-10 w-10">
+              <img
+                class="h-full w-full rounded-full object-cover object-center"
+                src="data:image/png;base64,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"
+                alt=""
+              />
+              <span class="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
+            </div>
+            <div class="text-sm">
+              <div class="font-medium text-gray-700">Pensión Garantizada Universal</div>
+              <div class="text-gray-400">ChileAtiende.cl</div>
+            </div>
+          </th>
+          <td class="px-6 py-4">
+            <span
+              class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600"
+            >
+              <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
+              proceso de postulacion
+            </span>
+          </td>
+          <td class="px-6 py-4">Entrega mensualmente hasta $206.173 pensiones menor a $702.101.</td>
+          <td class="px-6 py-4">
+            <div class="flex gap-2">
+              <span
+                class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"
+              >
+                mayores de 65 años
+              </span>
+              <span
+                class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600"
+              >
+                Residencia chilena
+              </span>
+              <span
+                class="inline-flex items-center gap-1 rounded-full bg-violet-50 px-2 py-1 text-xs font-semibold text-violet-600"
+              >
+                90% menos ingresos
+              </span>
+            </div>
+          </td>
+          <td class="px-6 py-4">
+            <div class="flex justify-end gap-4">
+              <a x-data="{ tooltip: 'Delete' }" href="#">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="h-6 w-6"
+                  x-tooltip="tooltip"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                  />
+                </svg>
+              </a>
+              <a x-data="{ tooltip: 'Edite' }" href="#">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="h-6 w-6"
+                  x-tooltip="tooltip"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+                  />
+                </svg>
+              </a>
+            </div>
+          </td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
+            <div class="relative h-10 w-10">
+              <img
+                class="h-full w-full rounded-full object-cover object-center"
+                src="https://www.buk.cl/hubfs/Aguinaldo_2Septiembre.png"
+                alt=""
+              />
+              <span class="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
+            </div>
+            <div class="text-sm">
+              <div class="font-medium text-gray-700">Aguinaldo de Fiestas Patrias y Navidad</div>
+              <div class="text-gray-400">ChileAtiende.cl</div>
+            </div>
+          </th>
+          <td class="px-6 py-4">
+            <span
+              class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600"
+            >
+              <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
+              proceso de postulacion
+            </span>
+          </td>
+          <td class="px-6 py-4">La pensión de diciembre se entregará el Aguinaldo de Navidad que se traducirá en $26.734 este año.</td>
+          <td class="px-6 py-4">
+            <div class="flex gap-2">
+              <span
+                class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"
+              >
+                Mayores de 60 años
+              </span>
+              <span
+                class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600"
+              >
+                Residencia chilena
+              </span>
+              <span
+                class="inline-flex items-center gap-1 rounded-full bg-violet-50 px-2 py-1 text-xs font-semibold text-violet-600"
+              >
+                90% menores ingresos
+              </span>
+            </div>
+          </td>
+          <td class="px-6 py-4">
+            <div class="flex justify-end gap-4">
+              <a x-data="{ tooltip: 'Delete' }" href="#">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="h-6 w-6"
+                  x-tooltip="tooltip"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                  />
+                </svg>
+              </a>
+              <a x-data="{ tooltip: 'Edite' }" href="#">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="h-6 w-6"
+                  x-tooltip="tooltip"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+                  />
+                </svg>
+              </a>
+            </div>
+          </td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
+            <div class="relative h-10 w-10">
+              <img
+                class="h-full w-full rounded-full object-cover object-center"
+                src="https://www.cenabast.cl/wp-content/uploads/2020/04/Sello-Ley-Cenabast.png"
+                alt=""
+              />
+              <span class="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
+            </div>
+            <div class="text-sm">
+              <div class="font-medium text-gray-700">Beneficio: Ley Cenabast</div>
+              <div class="text-gray-400">https://www.senama.gob.cl/beneficio-ley-cenabast</div>
+            </div>
+          </th>
+          <td class="px-6 py-4">
+            <span
+              class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600"
+            >
+              <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
+              Activo
+            </span>
+          </td>
+          <td class="px-6 py-4">Rebajas de hasta un 70% de los medicamentos que se adquieren en farmacias.</td>
+          <td class="px-6 py-4">
+            <div class="flex gap-2">
+              <span
+                class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"
+              >
+                Toda la poblacion
+              </span>
+            </div>
+          </td>
+          <td class="px-6 py-4">
+            <div class="flex justify-end gap-4">
+              <a x-data="{ tooltip: 'Delete' }" href="#">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="h-6 w-6"
+                  x-tooltip="tooltip"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                  />
+                </svg>
+              </a>
+              <a x-data="{ tooltip: 'Edite' }" href="#">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="h-6 w-6"
+                  x-tooltip="tooltip"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+                  />
+                </svg>
+              </a>
+            </div>
+          </td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
+            <div class="relative h-10 w-10">
+              <img
+                class="h-full w-full rounded-full object-cover object-center"
+                src="data:image/png;base64,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"
+                alt=""
+              />
+              <span class="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
+            </div>
+            <div class="text-sm">
+              <div class="font-medium text-gray-700">Beneficio: Centros Diurnos</div>
+              <div class="text-gray-400">https://www.senama.gob.cl/beneficio-centros-diurnos</div>
+            </div>
+          </th>
+          <td class="px-6 py-4">
+            <span
+              class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600"
+            >
+              <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
+              Activo
+            </span>
+          </td>
+          <td class="px-6 py-4">Espacios que durante el día entrega servicios 
+            socio sanitarios a las personas mayores </td>
+          <td class="px-6 py-4">
+            <div class="flex gap-2">
+              <span
+                class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"
+              >
+                Mayor de 60 años
+              </span>
+              <span
+                class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600"
+              >
+                Tres primeros quintiles de vulnerabilidad
+              </span>
+              <span
+                class="inline-flex items-center gap-1 rounded-full bg-violet-50 px-2 py-1 text-xs font-semibold text-violet-600"
+              >
+                Algun tipo de discapidad
+              </span>
+            </div>
+          </td>
+          <td class="px-6 py-4">
+            <div class="flex justify-end gap-4">
+              <a x-data="{ tooltip: 'Delete' }" href="#">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="h-6 w-6"
+                  x-tooltip="tooltip"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                  />
+                </svg>
+              </a>
+              <a x-data="{ tooltip: 'Edite' }" href="#">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="h-6 w-6"
+                  x-tooltip="tooltip"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+                  />
+                </svg>
+              </a>
+            </div>
+          </td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
+            <div class="relative h-10 w-10">
+              <img
+                class="h-full w-full rounded-full object-cover object-center"
+                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt=""
+              />
+              <span class="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
+            </div>
+            <div class="text-sm">
+              <div class="font-medium text-gray-700">Beneficio: Ley de Atención Preferente en Salud</div>
+              <div class="text-gray-400">https://www.senama.gob.cl/beneficio-ley-de-atencion-preferente-en-salud</div>
+            </div>
+          </th>
+          <td class="px-6 py-4">
+            <span
+              class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600"
+            >
+              <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
+              Activo
+            </span>
+          </td>
+          <td class="px-6 py-4">El reglamento deberá darse a conocer próximamente y establecerá la forma en que se aplicará la atención preferente en cada establecimiento de salud.</td>
+          <td class="px-6 py-4">
+            <div class="flex gap-2">
+              <span
+                class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"
+              >
+                Toda persona mayor de 60 años, y en situación de discapacidad.
+              </span>
+            </div>
+          </td>
+          <td class="px-6 py-4">
+            <div class="flex justify-end gap-4">
+              <a x-data="{ tooltip: 'Delete' }" href="#">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="h-6 w-6"
+                  x-tooltip="tooltip"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                  />
+                </svg>
+              </a>
+              <a x-data="{ tooltip: 'Edite' }" href="#">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="h-6 w-6"
+                  x-tooltip="tooltip"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+                  />
+                </svg>
+              </a>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+    <center>
+        <!-- component -->
+<div class="px-3 md:lg:xl:px-40   border-t border-b py-20 bg-opacity-10">
+    <div class="grid grid-cols-1 md:lg:xl:grid-cols-3 group bg-white shadow-xl shadow-neutral-100 border ">
+
+
+        <div
+            class="p-10 flex flex-col items-center text-center group md:lg:xl:border-r md:lg:xl:border-b hover:bg-slate-50 cursor-pointer">
+            <span class="p-5 rounded-full bg-red-500 text-white shadow-lg shadow-red-200"><svg
+                    xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg></span>
+            <p class="text-xl font-medium text-slate-700 mt-3">Acompañamos tus procesos</p>
+            <p style="text-align: justify;" class="mt-2 text-sm text-slate-500">Te agilizamos procesos de documentancion sin moverte de casa.</p>
+        </div>
+
+        <div
+            class="p-10 flex flex-col items-center text-center group md:lg:xl:border-r md:lg:xl:border-b hover:bg-slate-50 cursor-pointer">
+            <span class="p-5 rounded-full bg-orange-500 text-white shadow-lg shadow-orange-200"><svg
+                    xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="1.5">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg></span>
+            <p class="text-xl font-medium text-slate-700 mt-3">Documentos digitales</p>
+            <p style="text-align: justify;" class="mt-2 text-sm text-slate-500">Puedes almacenar todos tus documentos necesarios .</p>
+        </div>
+
+        <div class="p-10 flex flex-col items-center text-center group   md:lg:xl:border-b hover:bg-slate-50 cursor-pointer">
+            <span class="p-5 rounded-full bg-yellow-500 text-white shadow-lg shadow-yellow-200"><svg
+                    xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
+                </svg></span>
+            <p style="text-align: justify;" class="text-xl font-medium text-slate-700 mt-3">Contacto con municipalidades y centro de salud</p>
+            <p style="text-align: justify;" class="mt-2 text-sm text-slate-500">Entidades estatales pueden interactuar en
+                la web y .</p>
+        </div>
+
+
+        <div class="p-10 flex flex-col items-center text-center group   md:lg:xl:border-r hover:bg-slate-50 cursor-pointer">
+            <span class="p-5 rounded-full bg-lime-500 text-white shadow-lg shadow-lime-200"><svg
+                    xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                </svg></span>
+            <p class="text-xl font-medium text-slate-700 mt-3">Aumenta tus beneficios e ingresos</p>
+            <p style="text-align: justify;" class="mt-2 text-sm text-slate-500">Te ayudamos a estar actualizado de los procesos y beneficios
+                que puedes postular, aprovechamos al maximo las posibilidades su aumentar tu calidad de vida.
+            </p>
+        </div>
+
+        <div class="p-10 flex flex-col items-center text-center group    md:lg:xl:border-r hover:bg-slate-50 cursor-pointer">
+            <span class="p-5 rounded-full bg-teal-500 text-white shadow-lg shadow-teal-200"><svg
+                    xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                </svg></span>
+            <p style="text-align: justify;" class="text-xl font-medium text-slate-700 mt-3">Mantente al tanto de tus procesos</p>
+            <p style="text-align: justify;" class="mt-2 text-sm text-slate-500">En la web puedes ver todos los procesos pendientes y tus postulacion en 
+                proceso y resultados.</p>
+        </div>
+
+        <div class="p-10 flex flex-col items-center text-center group     hover:bg-slate-50 cursor-pointer">
+            <span class="p-5 rounded-full bg-indigo-500 text-white shadow-lg shadow-indigo-200"><svg
+                    xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg></span>
+            <p class="text-xl font-medium text-slate-700 mt-3">Seguridad</p>
+            <p style="text-align: justify;" class="mt-2 text-sm text-slate-500">Lo mas importante es que mantenemos tus documentos guardad en caso de perdidas.
+        
+            </p>
+        </div>
+
+
+
+
+    </div>
+
+    <div class="w-full   bg-indigo-600 shadow-xl shadow-indigo-200 py-10 px-20 flex justify-between items-center">
+        <p class=" text-white"> <span class="text-4xl font-medium">Tienes alguna duda?</span> <br> <span class="text-lg">Puedes hacer consultas y reclamos en el boton amarillo de la derecha.</span></p>
+        <button class="px-5 py-3  font-medium text-slate-700 shadow-xl  hover:bg-white duration-150  bg-yellow-400">CONTACTANOS</button>
+    </div>
+
+</div>
+    </center>
+    <script src="inicio.js"></script>
+
+</body>
+<!-- component -->
+<div class="flex items-end w-full ">
+
+    <footer class="w-full text-gray-700 bg-gray-100 body-font">
+        <div
+            class="container flex flex-col flex-wrap px-5 py-24 mx-auto md:items-center lg:items-start md:flex-row md:flex-no-wrap">
+            <div class="flex-shrink-0 w-64 mx-auto text-center md:mx-0 md:text-left">
+                <a class="flex items-center justify-center font-medium text-gray-900 title-font md:justify-start">
+                    <svg class="w-auto h-5 text-gray-900 fill-current " viewBox="0 0 202 69">
+                        <p>GoldCareTime</p>
+                    </svg>
+                </a>
+                <p class="mt-2 text-sm text-gray-500">Transformacion digital e innovacion!</p>
+                <div class="mt-4">
+                    <span class="inline-flex justify-center mt-2 sm:ml-auto sm:mt-0 sm:justify-start">
+                        <a class="text-gray-500 cursor-pointer hover:text-gray-700">
+                            <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                class="w-5 h-5" viewBox="0 0 24 24">
+                                <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+                            </svg>
+                        </a>
+                        <a class="ml-3 text-gray-500 cursor-pointer hover:text-gray-700">
+                            <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                class="w-5 h-5" viewBox="0 0 24 24">
+                                <path
+                                    d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z">
+                                </path>
+                            </svg>
+                        </a>
+                        <a class="ml-3 text-gray-500 cursor-pointer hover:text-gray-700">
+                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
+                            </svg>
+                        </a>
+                        <a class="ml-3 text-gray-500 cursor-pointer hover:text-gray-700">
+                            <svg fill="currentColor" stroke="currentColor" stroke-linecap="round"
+                                stroke-linejoin="round" stroke-width="0" class="w-5 h-5" viewBox="0 0 24 24">
+                                <path stroke="none"
+                                    d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z">
+                                </path>
+                                <circle cx="4" cy="4" r="2" stroke="none"></circle>
+                            </svg>
+                        </a>
+                    </span>
+                </div>
+            </div>
+
+            <div class="w-full px-4 lg:w-1/4 md:w-1/2">
+                <h2 class="mb-3 text-sm font-medium tracking-widest text-gray-900 uppercase title-font">Soporte</h2>
+                <nav class="mb-10 list-none">
+                    <li class="mt-3">
+                        <a class="text-gray-500 cursor-pointer hover:text-gray-900">Contacto Soporte</a>
+                    </li>
+                    <li class="mt-3">
+                        <a class="text-gray-500 cursor-pointer hover:text-gray-900">Ayuda</a>
+                    </li>
+                    <li class="mt-3">
+                    </li>
+                </nav>
+            </div>
+            <div class="w-full px-4 lg:w-1/4 md:w-1/2">
+                <h2 class="mb-3 text-sm font-medium tracking-widest text-gray-900 uppercase title-font">Informacion
+                    Plataforma
+                </h2>
+                <nav class="mb-10 list-none">
+                    <li class="mt-3">
+                        <a class="text-gray-500 cursor-pointer hover:text-gray-900">Terms &amp; Privacidad</a>
+                    </li>
+                    <li class="mt-3">
+                        <a class="text-gray-500 cursor-pointer hover:text-gray-900">informacion de empresas</a>
+                    </li>
+                    <li class="mt-3">
+                        <a class="text-gray-500 cursor-pointer hover:text-gray-900">Informacion de procesos</a>
+                    </li>
+                </nav>
+            </div>
+            <div class="w-full px-4 lg:w-1/4 md:w-1/2">
+                <h2 class="mb-3 text-sm font-medium tracking-widest text-gray-900 uppercase title-font">Contacto
+                    plataforma</h2>
+                <nav class="mb-10 list-none">
+                    <li class="mt-3">
+                        <a class="text-gray-500 cursor-pointer hover:text-gray-900">Enviar Mensage</a>
+                    </li>
+                    <li class="mt-3">
+                        <a class="text-gray-500 cursor-pointer hover:text-gray-900">Preguntas Frecuentes</a>
+                    </li>
+                    <li class="mt-3">
+                        <a class="text-gray-500 cursor-pointer hover:text-gray-900">+569 4011 3350</a>
+                    </li>
+                </nav>
+            </div>
+        </div>
+</div>
+<div class="bg-gray-300">
+    <div class="container px-5 py-4 mx-auto">
+        <p class="text-sm text-gray-700 capitalize xl:text-center">© 2023 All rights reserved wesavedata </p>
+    </div>
+</div>
+</footer>
+
+</div>
+<script>
+    const appData = () => {
+        return {
+            percent: 0,
+
+            appInit() {
+                // source: https://codepen.io/A_kamel/pen/qBmmGKJ
+                window.addEventListener('scroll', () => {
+                    let winScroll = document.body.scrollTop || document.documentElement.scrollTop,
+                        height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+
+                    this.percent = Math.round((winScroll / height) * 100);
+                });
+            },
+        };
+    };
+</script>
+
+</html>

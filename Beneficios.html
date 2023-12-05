@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de documentos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+</head>
+<!-- AlpineJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.8.1/cdn.min.js" defer></script>
+<header>
+    <div class="flex flex-col items-center justify-center mt-32" x-cloak x-data="appData()" x-init="appInit()">
+        <div class="flex flex-col">
+            <!-- Page Scroll Progress -->
+            <div class="fixed inset-x-0 top-0 z-50 h-0.5 mt-0.5
+            bg-blue-500" :style="`width: ${percent}%`"></div>
+
+            <!-- Navbar -->
+            <nav class="flex justify-around py-4 bg-white/80
+            backdrop-blur-md shadow-md w-full
+            fixed top-0 left-0 right-0 z-10">
+
+                <!-- Logo Container -->
+                <div class="flex items-center">
+                
+                    <!-- Logo -->
+                    <a class="cursor-pointer">
+                        <h3 class="text-2xl font-medium text-blue-500">
+                            <img class="h-14 w-14 object-cover"
+                                src="/imagenes/logoA.png"
+                                alt="Store Logo">
+                        </h3>
+                    </a>
+                </div>
+
+                <!-- Links Section -->
+                <div class="items-center hidden lg:flex">
+                    <a href="DEMOINICIO.html" class="flex text-gray-600 hover:text-blue-500
+                        cursor-pointer transition-colors duration-300 mx-6">
+                        Inicio
+                    </a>
+                    <a href="MisDocumentos.html" class="flex text-gray-600 hover:text-blue-500
+                        cursor-pointer transition-colors duration-300 mx-6">
+                        Mis Documentos
+                    </a>
+                    <a href="Beneficios.html" class="flex text-gray-600 hover:text-blue-500
+                        cursor-pointer transition-colors duration-300 text-blue-600 mx-6">
+                        Beneficios
+                    </a>
+                    <a href="https://www.mineduc.cl/talleres-de-programacion-2021/" class="flex text-gray-600 hover:text-blue-500
+                        cursor-pointer transition-colors duration-300 mx-6">
+                        Talleres
+                    </a>
+                </div>
+                
+
+
+                <!-- Icon Menu Section -->
+                <div class="flex items-center space-x-5">
+                    <!-- Register -->
+                    <div>
+                        <button onclick="openModal()" class=''> <a class="flex text-gray-600 hover:text-blue-500
+                            cursor-pointer transition-colors duration-300">
+
+                                <svg class="fill-current h-5 w-5 mr-2 mt-0.5" xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 0L11.34 .03L15.15 3.84L16.5 2.5C19.75 4.07 22.09 7.24 22.45 11H23.95C23.44 4.84 18.29 0 12 0M12 4C10.07 4 8.5 5.57 8.5 7.5C8.5 9.43 10.07 11 12 11C13.93 11 15.5 9.43 15.5 7.5C15.5 5.57 13.93 4 12 4M12 6C12.83 6 13.5 6.67 13.5 7.5C13.5 8.33 12.83 9 12 9C11.17 9 10.5 8.33 10.5 7.5C10.5 6.67 11.17 6 12 6M.05 13C.56 19.16 5.71 24 12 24L12.66 23.97L8.85 20.16L7.5 21.5C4.25 19.94 1.91 16.76 1.55 13H.05M12 13C8.13 13 5 14.57 5 16.5V18H19V16.5C19 14.57 15.87 13 12 13M12 15C14.11 15 15.61 15.53 16.39 16H7.61C8.39 15.53 9.89 15 12 15Z" />
+                                </svg>
+
+                                Usuario logeado
+                            </a></button>
+                    </div>
+
+
+                </div>
+            </nav>
+            <!-- component -->
+            <style>
+                .animated {
+                    -webkit-animation-duration: 1s;
+                    animation-duration: 1s;
+                    -webkit-animation-fill-mode: both;
+                    animation-fill-mode: both;
+                }
+
+                .animated.faster {
+                    -webkit-animation-duration: 500ms;
+                    animation-duration: 500ms;
+                }
+
+                .fadeIn {
+                    -webkit-animation-name: fadeIn;
+                    animation-name: fadeIn;
+                }
+
+                .fadeOut {
+                    -webkit-animation-name: fadeOut;
+                    animation-name: fadeOut;
+                }
+
+                @keyframes fadeIn {
+                    from {
+                        opacity: 0;
+                    }
+
+                    to {
+                        opacity: 1;
+                    }
+                }
+
+                @keyframes fadeOut {
+                    from {
+                        opacity: 1;
+                    }
+
+                    to {
+                        opacity: 0;
+                    }
+                }
+            </style>
+            <div class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster"
+                style="background: rgba(0,0,0,.7);">
+                <div
+                    class="border border-teal-500 shadow-lg modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                    <div class="modal-content py-4 text-left px-6">
+                        <!--Title-->
+                        <div class="flex justify-between items-center pb-3">
+                            <a href="/indexadmin.html" class="text-2xl font-bold">Iniciar Sesion</a>
+                            <div class="modal-close cursor-pointer z-50">
+                                <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18"
+                                    height="18" viewBox="0 0 18 18">
+                                    <path
+                                        d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                    </path>
+                                </svg>
+                            </div>
+                        </div>
+                        <!--Body-->
+                        <div class="my-5">
+                            <!-- component -->
+                            <div class="items-center justify-center">
+                                <form action="">
+                                    <div class="max-rounded-3xl">
+                                        <div class="rounded-[calc(1.5rem-1px)] bg-white px-10 p-12 dark:bg-gray-900">
+                                            <div>
+                                                <h1 class="text-xl font-semibold text-gray-800 dark:text-white">Inicia
+                                                    Sesion en tu Cuenta</h1>
+                                                <p class="text-sm tracking-wide text-gray-600 dark:text-gray-300"><a
+                                                        href=""
+                                                        class="text-blue-600 transition duration-200 hover:underline dark:text-blue-400">¿No
+                                                        tienes Cuenta? Creala Aquí</a>
+                                                </p>
+                                            </div>
+
+                                            <div class="mt-8 space-y-8">
+                                                <div class="space-y-6">
+                                                    <input
+                                                        class="w-full bg-transparent text-gray-600 dark:text-white dark:border-gray-700 rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-600 invalid:border-red-500 dark:placeholder-gray-300"
+                                                        placeholder="Tu Correo" type="email" name="email" id="email" />
+
+                                                    <input
+                                                        class="w-full bg-transparent text-gray-600 dark:text-white dark:border-gray-700 rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-600 invalid:border-red-500 dark:placeholder-gray-300"
+                                                        placeholder="Tu Contraseña" type="password" name="password"
+                                                        id="password" />
+                                                </div>
+
+                                                <button
+
+                                                    
+                                                    class="h-9 px-3 w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 focus:bg-blue-700 transition duration-500 rounded-md text-white">
+                                                    <a href="/indexadmin.html">Iniciar Sesion </a>
+
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!--Footer-->
+                        <div class="flex justify-end pt-2">
+                            <button
+                                class="focus:outline-none modal-close px-4 bg-gray-400 p-3 rounded-lg text-black hover:bg-gray-300">Cancelar</button>
+                            <button
+                                class="focus:outline-none px-4 bg-teal-500 p-3 ml-3 rounded-lg text-white hover:bg-teal-400">Confirmar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                const modal = document.querySelector('.main-modal');
+                const closeButton = document.querySelectorAll('.modal-close');
+
+                const modalClose = () => {
+                    modal.classList.remove('fadeIn');
+                    modal.classList.add('fadeOut');
+                    setTimeout(() => {
+                        modal.style.display = 'none';
+                    }, 500);
+                }
+
+                const openModal = () => {
+                    modal.classList.remove('fadeOut');
+                    modal.classList.add('fadeIn');
+                    modal.style.display = 'flex';
+                }
+
+                for (let i = 0; i < closeButton.length; i++) {
+
+                    const elements = closeButton[i];
+
+                    elements.onclick = (e) => modalClose();
+
+                    modal.style.display = 'none';
+
+                    window.onclick = function (event) {
+                        if (event.target == modal) modalClose();
+                    }
+                }
+            </script>
+
+        </div>
+
+    </div>
+</header>
+
+<body>
+    <div class="mx-auto my-8 px-4 w-4/4 md:w-3/3 lg:w-10/2">
+        <table class="min-w-full border-collapse block md:table border border-blue-500">
+            <thead class="block md:table-header-group">
+                <tr class="border border-black-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
+                    <th class="bg-blue-500 p-2 text-white font-bold md:border md:border-black-500 text-left block md:table-cell">Nombre beneficio</th>
+                    <th class="bg-blue-500 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">Sitio web beneficio</th>
+                    <th class="bg-blue-500 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">Descripcion</th>
+                    <th class="bg-blue-500 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">Estado</th>
+                    <th class="bg-blue-500 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">Accion</th>
+                </tr>
+            </thead>
+            <tbody class="block md:table-row-group">
+                <tr class="bg-gray-300 border border-grey-500 md:border-none block md:table-row">
+                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"><span class="inline-block w-1/3 md:hidden font-bold">Nombre beneficio</span>Beca pasajes</td>
+                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"><span class="w-1/3 md:hidden font-bold">Sitio web beneficio</span><a href="https://www.melipilla.cl/municipio/dideco/159-2/" class="text-center">https://www.melipilla.cl/municipio/dideco/159-2/</a></td>
+                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"><span class="inline-block w-1/3 md:hidden font-bold">Descripcion</span>Aporte de $125.000 por semestre</td>
+                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"><span class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600"><span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>Beneficiado</span></td>
+                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
+                        <span class="inline-block w-1/3 md:hidden font-bold">Actions</span>
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded">Editar</button>
+                        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    
+</body>
