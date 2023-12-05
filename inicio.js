@@ -6,7 +6,7 @@ function Register() {
   var contraseña = document.querySelector('input[type="password"]').value;
   console.log(nombres, correo, contraseña);
 
-  fetch('http://127.0.0.1:3000/registrar', {
+  fetch('http://127.0.0.1:433/registrar', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ function iniciarSesion() {
   var correo = document.querySelector('input[type="email"]').value;
   var contraseña = document.querySelector('input[type="password"]').value;
 
-  fetch('http://127.0.0.1:3000/loginsesion', {
+  fetch('http://127.0.0.1:433/loginsesion', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
